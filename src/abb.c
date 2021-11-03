@@ -60,9 +60,9 @@ abb_t* abb_insertar(abb_t* arbol, void* elemento){
 }
 
 /*
-TODO: Pre y Post
-!HACER ESTO
-*/ 
+ * Pre: -
+ * Post: Guarda el nodo mas derecho en nodo_mas_derecho y lo sustituye por su hijo izquierdo.
+ */ 
 nodo_abb_t* extraer_nodo_mas_derecho(nodo_abb_t* nodo_actual, nodo_abb_t** nodo_mas_derecho){
   if(!nodo_actual)
     return NULL;
@@ -76,9 +76,13 @@ nodo_abb_t* extraer_nodo_mas_derecho(nodo_abb_t* nodo_actual, nodo_abb_t** nodo_
   return nodo_actual;
 }
 
-// ! PRE Y POST
+/*
+ * Pre: - El tamanio del arbol debe ser correcto.
+ *      - El nodo_actual es el nodo desde donde comienza la busqueda del elemento a quitar.
+ * Post: Guarda en elemento_eliminado el puntero al elemento quitado del arbol.
+ */
 nodo_abb_t* abb_quitar_aux(nodo_abb_t* nodo_actual, void* elemento, abb_comparador comparador, void** elemento_eliminado, size_t* tamanio_arbol){
-  if(!nodo_actual)
+  if(!nodo_actual || !comparador || !tamanio_arbol)
     return NULL;
 
   int comparacion = comparador(nodo_actual->elemento, elemento);
@@ -196,9 +200,13 @@ void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *)){
   free(arbol);
 }
 
-// ! PRE Y POST
+/*
+ * Pre: - nodo_actual debe ser el nodo desde donde se aplica la funcion.
+ *      - *estado debe ser inicializado en false
+ * Post: Recorre el arbol aplicandole la funcion a cada elemento hasta que la funcion devuelva false. Devuelve la cantidad de invocaciones de la funcion.
+ */ 
 size_t abb_con_cada_elemento_aux(nodo_abb_t* nodo_actual, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, bool* estado){
-  if(!nodo_actual || !funcion)
+  if(!nodo_actual || !funcion || !estado)
     return 0;
 
   size_t cantidad = 0;
@@ -271,8 +279,14 @@ size_t abb_con_cada_elemento(abb_t *arbol, abb_recorrido recorrido, bool (*funci
   return abb_con_cada_elemento_aux(arbol->nodo_raiz, recorrido, funcion, aux, &estado);
 }
 
-// ! PRE Y POST
+/*
+ * Pre: -
+ * Post: Agrega elemento a vector->elementos aumentando la cantidad de elementos del mismo.
+ */ 
 bool agregar_a_vector(void* elemento, void* vector){
+  if(!vector)
+    return NULL;
+  
   vector_t* vector_aux = (vector_t*) vector;
   if(!vector_aux->elementos || vector_aux->tamanio_actual >= vector_aux->tamanio_maximo)
     return false;
