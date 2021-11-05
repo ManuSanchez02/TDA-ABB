@@ -202,7 +202,7 @@ void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *)){
 
 /*
  * Pre: - nodo_actual debe ser el nodo desde donde se aplica la funcion.
- *      - *estado debe ser inicializado en false
+ *      - *estado debe ser inicializado en true
  * Post: Recorre el arbol aplicandole la funcion a cada elemento hasta que la funcion devuelva false. Devuelve la cantidad de invocaciones de la funcion.
  */ 
 size_t abb_con_cada_elemento_aux(nodo_abb_t* nodo_actual, abb_recorrido recorrido, bool (*funcion)(void *, void *), void *aux, bool* estado){
