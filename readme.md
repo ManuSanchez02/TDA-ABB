@@ -17,13 +17,14 @@
 
 #### 1. Introducción
 
-Idea general del TP, como se planteo, etc.
+El objetivo del TDA es implementar un arbol binario de busqueda, tambien conocido como ABB. Es un tipo de dato abstracto eficiente a la hora de realizar operaciones como busqueda, insercion o eliminacion. 
 
 #### 2. Teoría
 
-Respuestas a las preguntas teoricas
+1. Un arbol es un tipo de dato abstracto conformado por una coleccion de nodos, los cuales estan enlazados en forma de arbol. Cada nodo tiene Hay muchos tipos de arboles, algunos mas eficientes que otros, distintas cantidades de hijos e implementaciones, etc. 
+Un tipo de arbol son los arboles binarios, cuyos nodos unicamente tienen 2 hijos. Este tipo de dato no esta ordenado de ninguna forma y simplemente consta de una coleccion de nodos conectados arbitrariamente.
+La idea de arbol binario se puede expandir un poco mas, al agregar la condicion de que los elementos mayores al elemento de cada nodo deben ir a la derecha, y los menores a la izquierda (esto es una convencion, tranquilamente se pueden poner los menores a la derecha y mayores a la izquierda). Esta condicion significa que se puede optimizar en gran forma las operaciones que se pueden realizar. De esta forma, obtenemos un ABB o arbol binario de busqueda. Al ser binario, tiene propiedades similares a la busqueda binaria. El orden de complejidad de algunas operaciones es $O(log(n))$ por lo que se puede considerar como eficiente (siempre y cuando el arbol este balanceado). Esto se debe a que aprovecha la recursividad y el principio de divide y conquista para optimizar las operaciones. Por ejemplo, al buscar un elemento, cada vez que se pasa por un nodo (si el arbol esta balanceado), se compara para ver si el elemento buscado es mayor, menor o igual al actual y se descarta la mitad de los mismos. 
 
-1. respuesta1
 2. respuesta2
 
 #### 3. Detalles de implementación
