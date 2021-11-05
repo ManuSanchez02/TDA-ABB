@@ -11,8 +11,11 @@ typedef struct vector{
 
 
 /*
-TODO: Pre y Post
-*/
+ * Pre: _numero1 y _numero2 deben ser punteros a entero inicializados.
+ * Post: - Devuelve un numero menor a 0 si numero1 < numero2.
+ *       - Devuelve un numero mayor a 0 si numero1 > numero2.
+ *       - Devuelve 0 si numero1 es igual a numero2.
+ */
 int comparador_de_enteros(void* _numero1, void* _numero2){
   int* numero1 = _numero1;
   int* numero2 = _numero2;
@@ -20,14 +23,18 @@ int comparador_de_enteros(void* _numero1, void* _numero2){
   return *numero1 - *numero2;
 }
 
+/*
+ * Pre: elemento debe ser un puntero a un int.
+ * Post: Libera la memoria reservada para elemento.
+ */
 void destructor_de_enteros(void* elemento){
   free(elemento);
 }
 
-bool es_menor(void* numero, void* limite){
-  return (*(int*)numero) < (*(int*)limite);
-}
-
+/*
+ * Pre: elemento debe ser un puntero a un int y vector tiene que ser un vector de punteros.
+ * Post: agrega elemento a vector si este es menor a 45.
+ */
 bool agregar_a_vector_si_es_menor_a_45(void* elemento, void* vector){
   vector_t* vector_aux = (vector_t*) vector;
   if(!vector_aux->elementos || vector_aux->tamanio_actual >= vector_aux->tamanio_maximo || *(int*)elemento >= 45)
