@@ -1,5 +1,7 @@
 #include "src/abb.h"
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 #include "pa2mm.h"
 #include "string.h"
 
@@ -21,6 +23,12 @@ int comparador_de_enteros(void* _numero1, void* _numero2){
   int* numero2 = _numero2;
 
   return *numero1 - *numero2;
+}
+
+int _comparador_de_enteros(const void* numero1, const void* numero2){
+
+
+  return *(int*)numero1 - *(int*)numero2;
 }
 
 /*
@@ -470,7 +478,46 @@ void dadoUnArbolConElementos_puedoRecorrerYAgregarAVector(){
   abb_destruir(arbol);
 }
 
+void dadoUnArbolVacio_insertoMuchosElementos_yComprueboSuEstado(){
+  abb_t* arbol = abb_crear(comparador_de_enteros);
+  int vector[10000];
+  int vector_ordenado[10000];
+  void* vector_recorrido[10000];
+  for(size_t i = 0; i < 10000; i++){
+    vector[i] = rand();
+    arbol = abb_insertar(arbol, &vector[i]);
+  }
+  memcpy(vector_ordenado, vector, 10000*sizeof(int));
+  qsort(vector_ordenado, 10000, sizeof(int), _comparador_de_enteros);
+  
+
+  pa2m_afirmar((arbol != NULL), "Puedo insertar muchos elementos en un arbol");
+  pa2m_afirmar((arbol->nodo_raiz->elemento == &vector[0]), "El elemento del nodo raiz es el primer elemento agregado");
+  pa2m_afirmar((abb_tamanio(arbol) == 10000), "El tamaño es correcto");
+  pa2m_afirmar((abb_vacio(arbol) == false), "El abb no esta vacio");
+  pa2m_afirmar((abb_buscar(arbol, &vector[4562]) == &vector[4562]), "El tamaño es correcto");
+
+
+  pa2m_afirmar((abb_recorrer(arbol, INORDEN, vector_recorrido, 10000) == 10000), "La cantidad de elementos recorridos es la de todo el arbol");
+  int i = 0;
+  while(vector_recorrido[i] == &vector_ordenado[i])
+    i++;
+  pa2m_afirmar((*(int*)vector_recorrido[i] == vector_ordenado[i]), "Los elementos se recorrieron en el orden correcto");  
+
+
+  for(size_t i = 0; i < 10000; i++){
+    abb_quitar(arbol, &vector[i]);
+  }
+  pa2m_afirmar((arbol->nodo_raiz == NULL), "El nodo raiz es nulo");
+  pa2m_afirmar((abb_tamanio(arbol) == 0), "El tamaño despues de quitar es correcto");
+  pa2m_afirmar((abb_vacio(arbol) == true), "El abb esta vacio despues de quitar elementos");
+
+
+  abb_destruir(arbol);
+}
+
 int main(){
+  srand((unsigned int)time(NULL));
   pa2m_nuevo_grupo("Pruebas de creacion y destruccion de ABB");
   intentoCrearYDestruirUnABB();
 
@@ -495,6 +542,9 @@ int main(){
   pa2m_nuevo_grupo("Pruebas de recorrido de arbol");
   dadoUnArbolConElementos_puedoAplicarFuncionACadaElementoYVerificoElOrdenDeAplicacion();
   dadoUnArbolConElementos_puedoRecorrerYAgregarAVector();
+
+  pa2m_nuevo_grupo("Pruebas de volumen");
+  dadoUnArbolVacio_insertoMuchosElementos_yComprueboSuEstado();
 
   return pa2m_mostrar_reporte();
 }
